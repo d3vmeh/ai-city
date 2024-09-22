@@ -1,5 +1,6 @@
 import pygame
 import sys
+from llm_response import *
 
 pygame.init()
 
@@ -114,8 +115,12 @@ def main():
             character.move_y(5)
         if keys[pygame.K_1]:
             Capture(screen,"screenshot.png",(character.x-40,character.y-40),(character.x+40,character.y+40))
-
-        print(character.x,character.y)
+            response = get_llm_response("What is in this image?","screenshot.png")
+            #response_text = response["choices"][0]["message"]["content"]
+            description = response["description"]
+            
+            #print(type(response))
+        #print(character.x,character.y)
         # Keep character on the roads
         if character.y < 400:  
             character.y = 400
