@@ -44,7 +44,8 @@ def get_llm_response(question,image_path):
             You are a character represented by a red circle. You will see a top-down view of yourself in an image shortly.
             You are inside of a small city with a few roads and buildings. 
             The dark grey rectangle is a road. The light grey rectangles with text on them are buildings. The
-            text on them represents what they are. You can move along the left and right along the road as you please.
+            text on them represents what they are. You can move left, right, up, or down on the road as you please.
+            You can only move along the road, though. Not through buildings
             This image shows the area around you that you can see, which is only a small portion of the world. 
             
             You can move vertically or horizontally. You can move in increments of 50 pixels.

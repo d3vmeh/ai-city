@@ -53,9 +53,12 @@ class Character:
 
 
 def draw_road(start_pos, end_pos, name):
-    pygame.draw.rect(screen, ROAD_COLOR, (*start_pos, end_pos[0] - start_pos[0], ROAD_WIDTH))
+    #pygame.draw.rect(screen, ROAD_COLOR, (*start_pos, end_pos[0] - start_pos[0], ROAD_WIDTH))
+    
+    length = abs(end_pos[0] - start_pos[0])
+    height = abs(end_pos[1] - start_pos[1])
 
-    print(f"{start_pos}, {end_pos[0]-start_pos[0]}")
+    pygame.draw.rect(screen, ROAD_COLOR, pygame.Rect(start_pos[0],start_pos[1],length,height))
     mid_x = (start_pos[0] + end_pos[0]) // 2
     mid_y = (start_pos[1] + ROAD_WIDTH // 2)
     text_surface = font.render(name, True, TEXT_COLOR)
@@ -98,9 +101,11 @@ def draw_speech_bubble(text, position):
 
 def draw_environment():
     # Draw roads
-    draw_road((200, 400), (1800, 400), "Main St")      # Horizontal road
-    draw_road((1000, 200), (1040, 600), "2nd Ave")     # Vertical road
+    #draw_road((200, 400), (1800, 400), "Main St")      # Horizontal road
+    #draw_road((1000, 200), (1040, 600), "2nd Ave")     # Vertical road
 
+    draw_road((200,400), (1800,440), "Main St") # Horizontal road
+    draw_road((1000, 200), (1040, 600), "2nd Ave") # Vertical road
     # Draw intersection
     intersection_pos = (1000, 400)
     pygame.draw.circle(screen, (0, 255, 0), intersection_pos, 10)  # Draw intersection
@@ -137,9 +142,11 @@ def main():
             character.move_x(-5)
         if keys[pygame.K_RIGHT] and character.x < WIDTH:
             character.move_x(5)
-        if keys[pygame.K_UP] and character.y > 0:
+        if keys[pygame.K_UP]:# and character.y > 0:
             character.move_y(-5)
-        if keys[pygame.K_DOWN] and character.y < HEIGHT:
+        if keys[pygame.K_DOWN]:# and character.y < HEIGHT:
+            #print("hello")
+
             character.move_y(5)
         if keys[pygame.K_1]:
             Capture(screen,"screenshot.png",(character.x-40,character.y-40),(character.x+40,character.y+40))
@@ -169,12 +176,12 @@ def main():
             #print(type(response))
         #print(character.x,character.y)
         # Keep character on the roads
-        if character.y < 400:  
-            character.y = 400
-        elif character.y < 600:  
-            character.y = 400
-        else:  # On 2nd Ave
-            character.y = max(200, min(character.y, 600))
+        # if character.y < 400:  
+        #     character.y = 400
+        # elif character.y < 600:  
+        #     character.y = 400
+        # else:  # On 2nd Ave
+        #     character.y = max(200, min(character.y, 600))
 
         # Refresh screen
         screen.fill((255, 255, 255))  # Clear screen
