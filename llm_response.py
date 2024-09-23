@@ -41,16 +41,22 @@ def get_llm_response(question,image_path):
             "text": f"""
             
             
-            You are a character a red circle. You will see a top-down view of yourself in an image shortly.
+            You are a character represented by a red circle. You will see a top-down view of yourself in an image shortly.
             You are inside of a small city with a few roads and buildings. 
             The dark grey rectangle is a road. The light grey rectangles with text on them are buildings. The
             text on them represents what they are. You can move along the left and right along the road as you please.
             This image shows the area around you that you can see, which is only a small portion of the world. 
+            
+            You can move vertically or horizontally. You can move in increments of 50 pixels.
+            
 
             Describe everything from your point of view as the red circle in a structured format (e.g., JSON) with the following fields:
-            - description: your observations
-            - buildings: list of building names
-            - roads: information about the road
+            - description: your observations about what you see. 
+            - horizontal movement: This is your horizontal movement. Respond with a positive multiple of 50, but as a string. 
+            - horizontal direction: This is the direction of your horizontal movement. Respond with "left" or "right".
+            - vertical movement: This is your vertical movement. Respond with a positive multiple of 50, but as a string.
+            - vertical direction: This is the direction of your vertical movement. Respond with "up" or "down".
+            - explanation: Explain your reasoning for your movement in detail, more than four sentences.
             Answer this question: {question}
 
             
@@ -76,9 +82,10 @@ def get_llm_response(question,image_path):
     # Assuming the model's response is in the 'choices' field
     if 'choices' in response_data and len(response_data['choices']) > 0:
         structured_response = response_data['choices'][0]['message']['content']
+        cleaned_response = structured_response.strip('```json\n').strip('```').strip()
         try:
             # Attempt to convert the structured response into a dictionary
-            response_dict = json.loads(structured_response)
+            response_dict = json.loads(cleaned_response)
             return response_dict
         except json.JSONDecodeError:
             return {"error": "Failed to decode response as JSON", "content": structured_response}
