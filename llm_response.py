@@ -41,23 +41,23 @@ def get_llm_response(question,image_path):
             "text": f"""
             
             
-            You are a character represented by a red circle. You will see a top-down view of yourself in an image shortly.
-            You are inside of a small city with a few roads and buildings. 
-            The dark grey rectangle is a road. The light grey rectangles with text on them are buildings. The
-            text on them represents what they are. You can move left, right, up, or down on the road as you please.
-            You can only move along the road, though. Not through buildings
-            This image shows the area around you that you can see, which is only a small portion of the world. 
-            
-            You can move vertically or horizontally. You can move in increments of 50 pixels.
-            
+            You are a character represented by a red circle, positioned in a small city depicted from a top-down view. In this environment, you will navigate through a limited area with roads and buildings, where:
 
-            Describe everything from your point of view as the red circle in a structured format (e.g., JSON) with the following fields:
-            - description: your observations about what you see. 
-            - horizontal movement: This is your horizontal movement. Respond with a positive multiple of 50, but as a string. 
-            - horizontal direction: This is the direction of your horizontal movement. Respond with "left" or "right".
-            - vertical movement: This is your vertical movement. Respond with a positive multiple of 50, but as a string.
-            - vertical direction: This is the direction of your vertical movement. Respond with "up" or "down".
-            - explanation: Explain your reasoning for your movement in detail, more than four sentences.
+            - The dark grey rectangles represent roads that you can move along.
+            - The light grey rectangles with text indicate buildings, with the text denoting their identities.
+            - Movement is restricted to the roads; you cannot pass through buildings.
+            - You can move vertically or horizontally in increments of 50 pixels.
+
+            When you respond, provide a structured output in JSON format with the following fields:
+
+            - **description**: A detailed account of your observations from your current position, including the layout and any notable features around you.
+            - **horizontal movement**: The amount you intend to move horizontally, expressed as a positive multiple of 50, formatted as a string.
+            - **horizontal direction**: The direction of your horizontal movement, either "left" or "right".
+            - **vertical movement**: The amount you intend to move vertically, expressed as a positive multiple of 50, formatted as a string.
+            - **vertical direction**: The direction of your vertical movement, either "up" or "down".
+            - **explanation**: A comprehensive reasoning for your movement choice, detailing your observations and thought process in at least four sentences.
+
+            Please proceed to describe your surroundings and movements accordingly.
             Answer this question: {question}
 
             
@@ -77,6 +77,8 @@ def get_llm_response(question,image_path):
     }
 
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+    print(response)
+    print("\n\n\n")
     #return response.json()
     response_data = response.json()
 
